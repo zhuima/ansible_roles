@@ -1,0 +1,4 @@
+---
+- name: create sudo user
+  user: name={{ username }} password={{ passwd }} update_password=always shell=/bin/bash groups=wheel append=yes
+  tags: adduser

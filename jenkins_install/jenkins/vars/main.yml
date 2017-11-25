@@ -1,0 +1,44 @@
+---
+# vars file for jenkins
+jenkins_home: /var/www/jenkins
+jenkins_user: www
+java:
+  - java-1.8.0-openjdk
+  - java-1.8.0-openjdk-devel
+  - java-1.8.0-openjdk-headless
+
+java_opts_Xms: 4096m
+java_opts_Xmx: 4096m
+java_opts_NewSize: 512m
+java_opts_MaxNewSize: 512m
+jenkins_connection_delay: 5
+jenkins_connection_retries: 60
+jenkins_hostname: localhost
+jenkins_http_port: 8080
+jenkins_jar_location: /opt/jenkins-cli.jar
+jenkins_url_prefix: ""
+
+jenkins_admin_username: admin
+jenkins_admin_password: zhuima
+
+jenkins_plugins:
+   - workflow-aggregator
+   - permissive-script-security
+   - rebuild
+   - build-name-setter
+   - groovy-postbuild
+   - postbuild-task
+   - jobConfigHistory
+   - ldap
+   - ansicolor
+   - dashboard-view
+   - project-stats-plugin
+   - extra-columns
+   - build-user-vars-plugin
+   - parameterized-trigger
+   - uno-choice
+   - git
+
+username: www
+# create passwd by : openssl passwd -salt -1 "zhuima"
+passwd: -1v5zv1jeg1os

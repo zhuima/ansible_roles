@@ -1,0 +1,7 @@
+---
+- hosts: hlists
+  gather_facts: True
+  sudo: yes
+  sudo_user: root
+  roles:
+   - jenkins

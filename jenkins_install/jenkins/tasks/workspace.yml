@@ -1,0 +1,8 @@
+---
+- name: create application floder
+  file: path={{ item }} owner=www group=www mode=0755 state=directory recurse=yes
+  with_items:
+    - /var/www
+    - /var/www/jenkins
+    - /var/log/jenkins
+    - /var/cache/jenkins

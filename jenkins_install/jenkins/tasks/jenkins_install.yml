@@ -1,0 +1,17 @@
+---
+- name: install jenkins
+  yum: name=jenkins  enablerepo=jenkins state=present
+  tags: task1
+  ignore_errors: True
+
+
+- name: sync jenkins conf
+  template: src=jenkins.j2 dest=/etc/sysconfig/jenkins
+  notify: restart jenkins
+  tags: jenkinsconf
+  ignore_errors: True
+
+- name: sync jenkins init file
+  copy: src=jenkins dest=/etc/init.d/jenkins
+  tags: jenkinsconf
+  ignore_errors: True

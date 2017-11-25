@@ -1,0 +1,11 @@
+---
+- name: sync jenkins repo
+  copy: src=jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
+  tags: jenkinsrepo
+  ignore_errors: True
+
+- name: import jenkins rpg key
+  rpm_key: state=present  key=http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+  tags: jenkinsrepo
+  ignore_errors: True
+

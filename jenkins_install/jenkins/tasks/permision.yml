@@ -1,0 +1,23 @@
+---
+- name: change owner for jenkins work
+  file: path=/var/log/jenkins/ state=directory owner=www group=www  mode=0755
+  ignore_errors: True
+  tags: workspace
+
+- name: change owner for jenkins work
+  file: path=/var/cache/jenkins/ state=directory owner=www group=www  mode=0755
+  ignore_errors: True
+  tags: workspace
+
+
+- name: start jenkins
+  service: name=jenkins state=started
+  ignore_errors: True
+  register: startjenkins
+  tags: startjenkins
+
+- name: change owner for jenkins work
+  file: path=/var/cache/jenkins/ state=directory owner=www group=www  mode=0755
+  when: startjenkins|failed
+  ignore_errors: True
+  tags: workspace

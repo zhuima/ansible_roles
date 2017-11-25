@@ -1,0 +1,10 @@
+---
+- name: install jdk 
+  yum: name={{ item }} state=present
+  with_items:
+   - "{{ java }}"
+   #- java-1.8.0-openjdk
+   #- java-1.8.0-openjdk-devel
+   #- java-1.8.0-openjdk-headless
+  ignore_errors: True
+  tags: jdk

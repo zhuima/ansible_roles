@@ -1,0 +1,19 @@
+---
+# Jenkins doesn't allow updates via CLI, though that is required before plugins
+
+- name: sync jenkins repo source
+  copy: src=update-center.json dest="{{ jenkins_home }}/updates/default.json"
+  tags: jenkinsrepo
+  ignore_errors: True
+
+
+- name: Install Jenkins plugins using password.
+  command: >
+    java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix | default('') }}/
+    install-plugin {{ item }}
+    --username {{ jenkins_admin_username }}
+    --password {{ jenkins_admin_password }}
+    creates="{{ jenkins_home }}/plugins/{{ item }}.jpi"
+  with_items: "{{ jenkins_plugins }}"
+  when: jenkins_admin_password != ""
+  notify: restart jenkins
