@@ -1,0 +1,10 @@
+---
+# tasks file for pyenv-pipenv
+- include: sync_pip_conf.yml
+
+- include: pipenv_install.yml
+
+- include: pyenv_install.yml
+
+- include: python36_install.yml
+

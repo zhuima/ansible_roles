@@ -1,0 +1,5 @@
+---
+- hosts: hlists # 要运行的主机IP
+  gather_facts: False
+  roles:
+    - pyenv-pipenv

@@ -1,0 +1,62 @@
+---
+- name: pyenv install
+  shell: git clone https://github.com/pyenv/pyenv.git /opt/.pyenv
+  register: pyenvinstall
+  ignore_errors: True
+  args:
+    creates: /opt/.pyenv/Makefile
+  when: pipenvinstall|success
+
+# - name: add pyenv path
+#   shell: uptime
+#   register: pyenvpath
+#   ignore_error: True  
+#   when: pyenvinstall|success
+
+- fail: msg="pyenv install failed"
+  when: pyenvinstall|failed
+
+- name: Copy profile file for safety
+  shell: cp -f /etc/profile /tmp/profile.tmp
+  when: pyenvinstall|success
+
+# - name: make sure we can add info to /tmp/profile.tmp
+#   lineinfile:
+#     dest: /tmp/profile.tmp
+#     backup: yes
+#     line: '{{ item }}'
+#   with_items:
+#     - 'export PATH'
+#     - 'export PYENV_ROOT="/opt/.pyenv"'
+#     - 'export PATH="$PYENV_ROOT/bin:$PATH"'
+#     - 'if command -v pyenv 1>/dev/null 2>&1; then'
+#     - 'eval "$(pyenv init -)"'
+#     - 'fi'
+#     - ' '
+#   register: pyenvpath
+#   when: pyenvinstall|success
+
+
+- name: make sure we can add info to /tmp/profile.tmp
+  blockinfile:
+    path: /tmp/profile.tmp
+    backup: yes
+    block: |
+      export PATH
+      export PYENV_ROOT="/opt/.pyenv"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      if command -v pyenv 1>/dev/null 2>&1; then
+        eval "$(pyenv init -)"
+      fi
+  register: pyenvpath
+  when: pyenvinstall|success
+  
+
+- fail: msg="pyenv path set failed"
+  when: pyenvpath|failed
+
+
+- name: Final profile file check
+  shell: cp -f /tmp/profile.tmp /etc/profile 
+  register: pyenvprofile
+  when: pyenvinstall|success

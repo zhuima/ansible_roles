@@ -1,0 +1,36 @@
+---
+- name: install basic package
+  yum: name='{{ item }}' state=present
+  with_items:
+    - epel-release
+    - python-devel
+    - zlib-devel
+    - readline-devel
+    - openssl-devel
+    - bzip2-devel
+  ignore_errors: True
+  register: pipinstall
+
+
+- name: install pip
+  yum: name='{{ item }}' state=present
+  with_items:
+    - python-pip
+  ignore_errors: True
+  register: pipinstall
+
+
+- name: jugement pip floder exists or not
+  file: path=~/.pip state=directory
+  register: pipdir
+  ignore_errors: True
+  when: pipinstall|success
+  
+- name: sync pip.conf to remote machine
+  copy: src=pip.conf dest=~/.pip/pip.conf
+  when: pipdir|success
+
+
+- name: sync pip.conf to remote machine
+  copy: src=pip.conf dest=/etc/pip.conf
+  when: pipdir|success

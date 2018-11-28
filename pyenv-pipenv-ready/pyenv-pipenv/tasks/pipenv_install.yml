@@ -1,0 +1,5 @@
+---
+- name: install pipenv
+  pip: name=pipenv extra_args='-i http://mirrors.aliyun.com/pypi/simple/'
+  register: pipenvinstall
+  ignore_errors: True

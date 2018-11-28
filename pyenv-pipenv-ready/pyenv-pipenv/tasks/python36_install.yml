@@ -1,0 +1,23 @@
+---
+- name: notice
+  shell: echo "This step will be waste three minutes"
+
+- name: check python version
+  shell: source /etc/profile; pyenv versions
+  register: pythonversion
+  ignore_errors: True
+
+
+- debug:
+    var=pythonversion.stdout
+
+
+- name: install python3.6
+  shell: source /etc/profile;pyenv install 3.6.0
+  async: 500
+  poll: 8
+  register: python36
+  ignore_errors: True
+  args:
+    creates: /opt/.pyenv/versions/3.6.0
+  when: pyenvprofile|success and pyenvpath|success
